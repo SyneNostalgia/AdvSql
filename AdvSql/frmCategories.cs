@@ -93,6 +93,7 @@ namespace AdvSql
             {
                 MessageBox.Show("เกิดข้อผิดำลาด :" + Environment.NewLine + ex.Message, "ไม่สามารถลบข้อมูลได้");
             }
+
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
