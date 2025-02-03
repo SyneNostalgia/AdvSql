@@ -47,5 +47,77 @@ namespace AdvSql
             txtCategoryName.Focus();
             txtCategoryID.Enabled = false;
         }
+
+        private void btnInsert_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtCategoryName.Text))
+            {
+                MessageBox.Show("ชื่อหมวดหมู่ต้องไม่เป็นค่าว่าง", "เกิดข้อผิดพลาด");
+                return;
+            }
+
+            string sql = "Insert into Categories values(@categoryName, @Description)";
+            com = new SqlCommand(sql, conn);
+            com.Parameters.AddWithValue("@categoryName", txtCategoryName.Text.Trim());
+            com.Parameters.AddWithValue("@Description", txtDescription.Text.Trim());
+            if (com.ExecuteNonQuery() > 0)
+            {
+                showdata();
+                btnClearForm.PerformClick();
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtCategoryID.Text))
+            {
+                MessageBox.Show("ต้องเลือกข้อมูลที่ต้องการลบก่อน", "เกิดข้อผิดพลาด");
+                return;
+            }
+            if (MessageBox.Show("ต้องการลบหรือไม่","โปรดยืนยัน",MessageBoxButtons.YesNo) == DialogResult.No)
+            {
+                return;
+            }
+            string sql = "DELETE FROM Categories WHERE CategoryID = @categoryID";
+            com = new SqlCommand(sql, conn);
+            com.Parameters.AddWithValue("@categoryID", txtCategoryID.Text.Trim());
+            try
+            {
+                if (com.ExecuteNonQuery() > 0)
+                {
+                    showdata();
+                    btnClearForm.PerformClick();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("เกิดข้อผิดำลาด :" + Environment.NewLine + ex.Message, "ไม่สามารถลบข้อมูลได้");
+            }
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtCategoryID.Text))
+            {
+                MessageBox.Show("ต้องเลือกข้อมูลที่ต้องการแก้ไขก่อน", "เกิดข้อผิดพลาด");
+                return;
+            }
+            if (string.IsNullOrEmpty(txtCategoryName.Text))
+            {
+                MessageBox.Show("ชื่อหมวดหมู่ต้องไม่เป็นค่าว่าง", "เกิดข้อผิดพลาด");
+                return;
+            }
+
+            string sql = "Update Categories set CategoryName = @categoryName, Description = @Description where CategoryID = @categoryID";
+            com = new SqlCommand(sql, conn);
+            com.Parameters.AddWithValue("@categoryName", txtCategoryName.Text.Trim());
+            com.Parameters.AddWithValue("@Description", txtDescription.Text.Trim());
+            com.Parameters.AddWithValue("@categoryID", txtCategoryID.Text.Trim());
+            if (com.ExecuteNonQuery() > 0)
+            {
+                showdata();
+                btnClearForm.PerformClick();
+            }
+        }
     }
 }

@@ -115,6 +115,7 @@
             btnInsert.TabIndex = 7;
             btnInsert.Text = "เพิ่ม";
             btnInsert.UseVisualStyleBackColor = false;
+            btnInsert.Click += btnInsert_Click;
             // 
             // btnUpdate
             // 
@@ -126,6 +127,7 @@
             btnUpdate.TabIndex = 8;
             btnUpdate.Text = "ปรับปรุง";
             btnUpdate.UseVisualStyleBackColor = false;
+            btnUpdate.Click += btnUpdate_Click;
             // 
             // btnDelete
             // 
@@ -137,6 +139,7 @@
             btnDelete.TabIndex = 9;
             btnDelete.Text = "ลบ";
             btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
             // 
             // btnClearForm
             // 
