@@ -1,4 +1,4 @@
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace AdvSql
@@ -52,7 +52,7 @@ namespace AdvSql
         {
             if (string.IsNullOrEmpty(txtCategoryName.Text))
             {
-                MessageBox.Show("������Ǵ�����ͧ����繤����ҧ", "�Դ��ͼԴ��Ҵ");
+                MessageBox.Show("ชื่อหมวดหมู่ต้องไม่เป็นค่าว่าง", "เกิดข้อผิดพลาด");
                 return;
             }
 
@@ -71,10 +71,10 @@ namespace AdvSql
         {
             if (string.IsNullOrEmpty(txtCategoryID.Text))
             {
-                MessageBox.Show("��ͧ���͡�����ŷ���ͧ���ź��͹", "�Դ��ͼԴ��Ҵ");
+                MessageBox.Show("ต้องเลือกข้อมูลที่ต้องการลบก่อน", "เกิดข้อผิดพลาด");
                 return;
             }
-            if (MessageBox.Show("��ͧ���ź�������","�ô�׹�ѹ",MessageBoxButtons.YesNo) == DialogResult.No)
+            if (MessageBox.Show("ต้องการลบหรือไม่", "โปรดยืนยัน", MessageBoxButtons.YesNo) == DialogResult.No)
             {
                 return;
             }
@@ -91,7 +91,7 @@ namespace AdvSql
             }
             catch (Exception ex)
             {
-                MessageBox.Show("�Դ��ͼԴ��Ҵ :" + Environment.NewLine + ex.Message, "�������öź��������");
+                MessageBox.Show("เกิดข้อผิดำลาด :" + Environment.NewLine + ex.Message, "ไม่สามารถลบข้อมูลได้");
             }
 
         }
@@ -100,12 +100,12 @@ namespace AdvSql
         {
             if (string.IsNullOrEmpty(txtCategoryID.Text))
             {
-                MessageBox.Show("��ͧ���͡�����ŷ���ͧ�����䢡�͹", "�Դ��ͼԴ��Ҵ");
+                MessageBox.Show("ต้องเลือกข้อมูลที่ต้องการแก้ไขก่อน", "เกิดข้อผิดพลาด");
                 return;
             }
             if (string.IsNullOrEmpty(txtCategoryName.Text))
             {
-                MessageBox.Show("������Ǵ�����ͧ����繤����ҧ", "�Դ��ͼԴ��Ҵ");
+                MessageBox.Show("ชื่อหมวดหมู่ต้องไม่เป็นค่าว่าง", "เกิดข้อผิดพลาด");
                 return;
             }
 
@@ -119,6 +119,12 @@ namespace AdvSql
                 showdata();
                 btnClearForm.PerformClick();
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            frmPos form = new frmPos();
+            form.ShowDialog();
         }
     }
 }

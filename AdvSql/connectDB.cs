@@ -12,7 +12,7 @@ namespace AdvSql
         public static SqlConnection ConnectMinimart()
         {
             //ประกาศ ชื่อ Server และ DataBase
-            string server = @"DESKTOP-63NPO94\SQLEXPRESS";
+            string server = @"NOSTALGIA\SQLEXPRESS";
             string db = "Minimart";
 
             //command เชื่อมต่อ Connection String

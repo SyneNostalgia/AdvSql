@@ -39,6 +39,7 @@
             btnUpdate = new Button();
             btnDelete = new Button();
             btnClearForm = new Button();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvCategories).BeginInit();
             SuspendLayout();
             // 
@@ -153,12 +154,23 @@
             btnClearForm.UseVisualStyleBackColor = false;
             btnClearForm.Click += btnClearForm_Click;
             // 
+            // button1
+            // 
+            button1.Location = new Point(451, 319);
+            button1.Name = "button1";
+            button1.Size = new Size(94, 29);
+            button1.TabIndex = 11;
+            button1.Text = "frmPos";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // frmCategories
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Thistle;
             ClientSize = new Size(576, 594);
+            Controls.Add(button1);
             Controls.Add(btnClearForm);
             Controls.Add(btnDelete);
             Controls.Add(btnUpdate);
@@ -190,5 +202,6 @@
         private Button btnUpdate;
         private Button btnDelete;
         private Button btnClearForm;
+        private Button button1;
     }
 }
