@@ -213,18 +213,21 @@ namespace AdvSql
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            int lastOrderID = 0;
+            string msg = "";
+            int lastOrderID = 0; //จะเอําไว้เก็บรหัสที่ใหม่ที่สุดตอนที่ insert order แล ้ว
             if (txtEmployeeID.Text.Trim() == "")
             {
                 MessageBox.Show("โปรดระบุผู้ขายสินค้าก่อน", "มีข้อผิดพลาด");
                 txtEmployeeID.Focus();
                 return;
             }
-            if (lsvProducts.Items.Count > 0)
+            if (lsvProducts.Items.Count > 0) //ตรวจสอบวํา่ เลอื กสนิคํา้ไวห้ รอื ยัง
             {
-                if (MessageBox.Show("ต้องการบันทึกรายการสั่งซื้อหรือไม่" , "กรุณายืนยัน", MessageBoxButtons.YesNo)
+                if (MessageBox.Show("ต้องการบันบึกรายการสั่งซื้อหรือไม่", "กรุณายืนยัน", MessageBoxButtons.YesNo)
                 == DialogResult.Yes)
                 {
+                    //ประกําศเริ่ม Transaction
+
                     conn.Open();
                     tr = conn.BeginTransaction();
                     string sql = "insert into Receipts(ReceiptDate,EmployeeID,TotalCash)"
@@ -233,6 +236,7 @@ namespace AdvSql
                     comm.Parameters.AddWithValue("@EmployeeID", txtEmployeeID.Text.Trim());
                     comm.Parameters.AddWithValue("@TotalCash", lblNetPrice.Text);
                     comm.ExecuteNonQuery();
+                    //อ่ําน OrderID ลํา่ สดุ ใสไ่ วใ้นตัวแปร lastOrderID
                     string sql1 = "select top 1 ReceiptID from Receipts order by ReceiptID desc";
                     SqlCommand comm1 = new SqlCommand(sql1, conn, tr);
                     SqlDataReader dr = comm1.ExecuteReader();
@@ -242,6 +246,9 @@ namespace AdvSql
                         lastOrderID = dr.GetInt32(dr.GetOrdinal("ReceiptID"));
                     }
                     dr.Close();
+                    msg += "ผู้ขาย: " + txtEmployeeName.Text + Environment.NewLine;
+                    msg += "หมายเลขใบสั่งซื้อ: " + lastOrderID.ToString() + Environment.NewLine;
+                    //เพมิ่ ขอ้มลู รํายกํารสนิคํา้ OrderDetail ที่ตรงกับ lastOrderID
                     for (int i = 0; i <= lsvProducts.Items.Count - 1; i++)
                     {
                         string sql2 = "insert into Details(ReceiptID,ProductID,UnitPrice,Quantity)"
@@ -252,12 +259,17 @@ namespace AdvSql
                         comm3.Parameters.AddWithValue("@UnitPrice", lsvProducts.Items[i].SubItems[2].Text);
                         comm3.Parameters.AddWithValue("@Quantity", lsvProducts.Items[i].SubItems[3].Text);
                         comm3.ExecuteNonQuery();
+                        msg += lsvProducts.Items[i].SubItems[0].Text + ", ";
+                        msg += lsvProducts.Items[i].SubItems[1].Text + ", ";
+                        msg += lsvProducts.Items[i].SubItems[2].Text + ", ";
+                        msg += lsvProducts.Items[i].SubItems[3].Text + ", " + Environment.NewLine;
                     }
                     tr.Commit();
                     conn.Close();
-                    MessageBox.Show("บันทึกรายการขายเรียบร้อยแล้ว", "ผลการทำงาน");
+                    msg += "\nยอดรวมทั้งหมด: " + lblNetPrice.Text;
+                    MessageBox.Show(msg, "บันทึกรายการขายเรียบร้อยแล้ว");
                 }
-                btnCancel.PerformClick();
+                btnCancel.PerformClick(); //สั่งใหไ้ปกดป่มุ cancel เคลีย์หน้ําจอทั้งหมดใหม่เพื่อเริ่มรํายกํารใหม่
             }
         }
     }
